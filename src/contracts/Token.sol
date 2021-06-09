@@ -1,6 +1,4 @@
-// SPDX-License-Identifier: UNLICENCED
-
-pragma solidity >=0.5.0;
+pragma solidity ^0.5.0;
 
 contract Token {
 
@@ -9,8 +7,13 @@ contract Token {
     uint256 public decimals = 18;
     uint256 public totalSupply;
 
+    // track balances
+    mapping(address => uint256) public balanceOf;
+    // send balances
+
     constructor() public {
         totalSupply = 1000000 * (10 ** decimals);
+        balanceOf[msg.sender] = totalSupply;
     }
 
 }
