@@ -7,9 +7,9 @@ require('chai')
 
 contract('Token', ([deployer, receiver, exchange]) => {
     const name = 'DApp Token',
-        symbol = 'DAPP',
-        decimals = '18',
-        totalSupply = tokens(1000000).toString()
+    const symbol = 'DAPP',
+    const decimals = '18',
+    const totalSupply = tokens(1000000).toString()
     let token
 
     beforeEach(async () => {
