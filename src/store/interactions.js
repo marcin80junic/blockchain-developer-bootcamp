@@ -10,7 +10,7 @@ import {
 
 
 export const loadWeb3 = (dispatch) => {
-    const web3 = new Web3('http://localhost:7545')
+    const web3 = new Web3(Web3.givenProvider || 'http://localhost:7545')
     dispatch(web3Loaded(web3))
     return web3
 }
@@ -28,7 +28,7 @@ export const loadToken = (web3, networkId, dispatch) => {
         dispatch(tokenLoaded(token))
         return token
     } catch(error) {
-        window.alert('Contract NOT deployed to the current network.\nPlease select another network in Metamask')
+        console.log('Contract NOT deployed to the current network.\nPlease select another network in Metamask')
         return null
     }
 }
