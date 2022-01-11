@@ -16,6 +16,7 @@ class App extends Component {
   async loadBlockchainData(dispatch) {
     const web3 = loadWeb3(dispatch)
     const networkId = await web3.eth.net.getId()
+    const accounts = await web3.eth.getAccounts();
     const account = await loadAccount(web3, dispatch)
     const token = await loadToken(web3, networkId, dispatch)
     const exchange = await loadExchange(web3, networkId, dispatch)
@@ -30,6 +31,7 @@ class App extends Component {
     console.log('token: ', token)
     console.log(`network: ${await web3.eth.net.getNetworkType()}`)
     console.log(`network ID: ${networkId}`)
+    console.log('all accounts', accounts)
     console.log(`account: ${account}`)
   }
   
