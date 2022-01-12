@@ -68,12 +68,12 @@ module.exports = async function(callback) {
         console.log(`filled order from${user1}`);
 
         // seed open orders, user1 and user2 make 10 orders each
-        for(let i = 0; i <= 10; i++) {
+        for(let i = 1; i <= 10; i++) {
             result = await exchange.makeOrder(token.address, tokens(10*i), ETHER_ADDRESS, tokens(0.01), {from: user1});
             console.log(`make order from ${user1}`);
             await wait(1);
         }
-        for(let i = 0; i <= 10; i++) {
+        for(let i = 1; i <= 10; i++) {
             result = await exchange.makeOrder(ETHER_ADDRESS, tokens(0.01), token.address, tokens(10*i), {from: user2});
             console.log(`make order from ${user2}`);
             await wait(1);
