@@ -18672,12 +18672,12 @@
         }
       },
       "links": {},
-      "address": "0x8FEe2A3D7F6d4C7EB3678A9291a5b579bD245716",
-      "transactionHash": "0xca28a567a53f126c408320ffeb4edd2c444f841a433673678184d282879f949a"
+      "address": "0x7Af8cd355D0B9d5b745452F78036EB9892B573b1",
+      "transactionHash": "0x4b2fdbf7c139b7e3595b26ea326725db2d87aff233370341292d1a6567085e47"
     }
   },
   "schemaVersion": "3.2.5",
-  "updatedAt": "2022-01-12T16:56:33.438Z",
+  "updatedAt": "2022-01-24T14:45:56.796Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
