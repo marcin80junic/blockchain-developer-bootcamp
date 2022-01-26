@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 import './app.css';
 import { loadWeb3, loadAccount, loadToken, loadExchange } from '../store/interactions'
 import {contractsLoadedSelector } from '../store/selectors'
+import detectEthereumProvider from '@metamask/detect-provider';
+
 
 
 class App extends Component {
@@ -14,25 +16,36 @@ class App extends Component {
   }
 
   async loadBlockchainData(dispatch) {
+    const provider = await detectEthereumProvider();
+    if (provider) {
+      console.log('ETH chain ID: ', await provider.request({ method: 'eth_chainId' }))
+      console.log('ETH network ID: ', await provider.request({ method: 'net_version'}))
+      console.log('ETH selected account:', await provider.request({ method: 'eth_accounts' }))
+      provider.on('chainChanged', () => window.location.reload())
+      provider.on('accountsChanged', () => window.location.reload())
+    } else {
+      console.log('Please install MetaMask!');
+    }
+
     const web3 = loadWeb3(dispatch)
     const networkId = await web3.eth.net.getId()
-    const accounts = await web3.eth.getAccounts();
     const account = await loadAccount(web3, dispatch)
     const token = await loadToken(web3, networkId, dispatch)
     const exchange = await loadExchange(web3, networkId, dispatch)
-    if(!token) {
+
+    console.log(`web3 network: ${await web3.eth.net.getNetworkType()}`)
+    console.log(`web3 network ID: ${networkId}`)
+    console.log('web3 all accounts', await web3.eth.getAccounts())
+    console.log(`web3 selected account: ${account}`)
+
+    if (!token) {
       alert('Token smart contract NOT detected on current network.\nPlease select another network with Metamask')
       return
     }
-    if(!exchange) {
+    if (!exchange) {
       alert('Exchange smart contract NOT detected on current network.\nPlease select another network with Metamask')
       return
     }
-    console.log('token: ', token)
-    console.log(`network: ${await web3.eth.net.getNetworkType()}`)
-    console.log(`network ID: ${networkId}`)
-    console.log('all accounts', accounts)
-    console.log(`account: ${account}`)
   }
   
   render() {
