@@ -5,8 +5,12 @@ import {
     myFilledOrdersLoadedSelector,
     myFilledOrdersSelector,
     myOpenOrdersLoadedSelector,
-    myOpenOrdersSelector
+    myOpenOrdersSelector,
+    exchangeSelector,
+    accountSelector,
+    orderCancellingSelector
 } from '../store/selectors'
+import { cancelOrder } from '../store/interactions'
 import Spinner from './Spinner'
 
 
@@ -27,7 +31,8 @@ const showMyFilledOrders = (myFilledOrders) => {
     )
 }
 
-const showMyOpenOrders = (myOpenOrders) => {
+const showMyOpenOrders = (props) => {
+    const { myOpenOrders, dispatch, exchange, account } = props
     return (
         <tbody>
             { myOpenOrders.map((order) => {
@@ -36,7 +41,12 @@ const showMyOpenOrders = (myOpenOrders) => {
                     <tr key={order.id}>
                         <td className={className}>{order.tokenAmount}</td>
                         <td className={className}>{order.tokenPrice}</td>
-                        <td className="text-muted">X</td>
+                        <td 
+                            className="text-muted cancel-order"
+                            onClick={(e) => cancelOrder(exchange, order, account, dispatch)}
+                        >
+                            X
+                        </td>
                     </tr>
                 )
             }) }
@@ -77,7 +87,7 @@ export class MyTransactions extends Component {
                                     </tr>
                                 </thead>
                                 { this.props.showMyOpenOrders ?
-                                    showMyOpenOrders(this.props.myOpenOrders)
+                                    showMyOpenOrders(this.props)
                                     : <Spinner type="table" /> }
                             </table>
                         </Tab>
@@ -89,11 +99,16 @@ export class MyTransactions extends Component {
 }
 
 const mapStateToProps = (state) => {
+    const myOpenOrdersLoaded = myOpenOrdersLoadedSelector(state)
+    const orderCancelling = orderCancellingSelector(state)
+
     return {
         myFilledOrders: myFilledOrdersSelector(state),
         showMyFilledOrders: myFilledOrdersLoadedSelector(state),
         myOpenOrders: myOpenOrdersSelector(state),
-        showMyOpenOrders: myOpenOrdersLoadedSelector(state)
+        showMyOpenOrders: myOpenOrdersLoaded && !orderCancelling,
+        exchange: exchangeSelector(state),
+        account: accountSelector(state)
     } 
 }
 

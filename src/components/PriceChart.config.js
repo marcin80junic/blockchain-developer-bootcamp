@@ -61,7 +61,7 @@ export const chartOptions = {
     }
   }
   
-  export const dummyData = [
+ /* export const dummyData = [
     {
       data: [
         {
@@ -306,5 +306,5 @@ export const chartOptions = {
         },
       ]
     }
-  ]
+  ] */
   

@@ -149,6 +149,10 @@ td.cancel-order {
   cursor: pointer;
 }
 
+td.cancel-order:hover {
+  background-color: #1d1d1d;
+}
+
 tr.order-book-order {
   cursor: pointer;
 }

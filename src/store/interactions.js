@@ -8,7 +8,9 @@ import {
     exchangeLoaded,
     cancelledOrdersLoaded,
     filledOrdersLoaded,
-    allOrdersLoaded
+    allOrdersLoaded,
+    orderCancelling,
+    orderCancelled
 } from "./actions"
 
 
@@ -63,5 +65,25 @@ export const loadAllOrders = async(exchange, dispatch) => {
     const allOrders = orderStream.map((event) => event.returnValues)
     dispatch(allOrdersLoaded(allOrders))
 
+}
+
+export const cancelOrder = (exchange, order, account, dispatch) => {
+    exchange
+        .methods
+        .cancelOrder(order.id)
+        .send( { from: account })
+        .on('transactionHash', (hash) => {
+            dispatch(orderCancelling())
+        })
+        .on('error', (err) => {
+            console.log('ERROR WHILE CANCELLING ORDER: ', err)
+            alert('There was an error while canelling order')
+        })
+}
+
+export const subscribeToEvents = async (exchange, dispatch) => {
+    exchange.events.Cancel({}, (error, event) => {
+        dispatch(orderCancelled(event.returnValues))
+    })
 }
 

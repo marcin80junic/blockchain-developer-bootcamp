@@ -258,3 +258,7 @@ const decorateOrder = (order) => {
         formattedTimestamp: moment.unix(order.timestamp).format('h:mm:ss a D/M')
     }
 }
+
+
+const orderCancelling = state => get(state, 'exchange.orderCancelling', false)
+export const orderCancellingSelector = createSelector(orderCancelling, status => status)
