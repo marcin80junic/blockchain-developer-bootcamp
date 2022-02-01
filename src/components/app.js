@@ -8,7 +8,6 @@ import {contractsLoadedSelector } from '../store/selectors'
 import detectEthereumProvider from '@metamask/detect-provider';
 
 
-
 class App extends Component {
 
   componentDidMount() {

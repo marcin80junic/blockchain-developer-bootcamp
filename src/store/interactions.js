@@ -10,7 +10,9 @@ import {
     filledOrdersLoaded,
     allOrdersLoaded,
     orderCancelling,
-    orderCancelled
+    orderCancelled,
+    orderFilling,
+    orderFilled
 } from "./actions"
 
 
@@ -49,7 +51,7 @@ export const loadExchange = (web3, networkId, dispatch) => {
     }
 }
 
-export const loadAllOrders = async(exchange, dispatch) => {
+export const loadAllOrders = async(dispatch, exchange) => {
     // fetch cancelled orders with the "Cancel" event stream
     const cancelStream = await exchange.getPastEvents('Cancel', { fromBlock: 0, toBlock: 'latest'})
     // format cancelled orders
@@ -64,10 +66,18 @@ export const loadAllOrders = async(exchange, dispatch) => {
     const orderStream = await exchange.getPastEvents('Order', { fromBlock: 0, toBlock: 'latest'})
     const allOrders = orderStream.map((event) => event.returnValues)
     dispatch(allOrdersLoaded(allOrders))
-
 }
 
-export const cancelOrder = (exchange, order, account, dispatch) => {
+export const subscribeToEvents = async (dispatch, exchange) => {
+    exchange.events.Cancel({}, (error, event) => {
+        dispatch(orderCancelled(event.returnValues))
+    })
+    exchange.events.Trade({}, (error, event) => {
+        dispatch(orderFilled(event.returnValues))
+    })
+}
+
+export const cancelOrder = (dispatch, exchange, order, account) => {
     exchange
         .methods
         .cancelOrder(order.id)
@@ -81,9 +91,19 @@ export const cancelOrder = (exchange, order, account, dispatch) => {
         })
 }
 
-export const subscribeToEvents = async (exchange, dispatch) => {
-    exchange.events.Cancel({}, (error, event) => {
-        dispatch(orderCancelled(event.returnValues))
-    })
+export const fillOrder = (dispatch, exchange, order, account) => {
+    exchange
+        .methods
+        .fillOrder(order.id)
+        .send( { from: account })
+        .on('transactionHash', (hash) => {
+            dispatch(orderFilling())
+        })
+        .on('error', (err) => {
+            console.log('ERROR WHILE FILLING ORDER: ', err)
+            alert('There was an error while filling order')
+        })
 }
+
+
 

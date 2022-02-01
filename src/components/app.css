@@ -145,14 +145,16 @@
   padding-left: 20px;
 }
 
-td.cancel-order {
-  cursor: pointer;
+span.cancel-order {
+  padding: 0 5px;
 }
 
-td.cancel-order:hover {
+span.cancel-order:hover {
   background-color: #1d1d1d;
+  cursor: pointer;
 }
 
-tr.order-book-order {
+tr.order-book-order:hover {
   cursor: pointer;
+  background-color: #1d1d1d;
 }

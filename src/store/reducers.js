@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 
+
 function web3(state = {}, action) {
     switch(action.type) {
         case 'WEB3_LOADED':
@@ -23,6 +24,8 @@ function token(state = {}, action) {
 }
 
 function exchange(state = {}, action) {
+    let index, data
+    
     switch (action.type) {
         case 'EXCHANGE_LOADED':
             return {
@@ -62,6 +65,25 @@ function exchange(state = {}, action) {
                     ]
                 }
             }
+        case 'ORDER_FILLING':
+            return {
+                ...state,
+                orderFilling: true
+            }
+        case 'ORDER_FILLED':
+            index = state.filledOrders.data.findIndex(order => order.id === action.order.id)
+            data = index === -1 ?
+                [...state.filledOrders.data, action.order]
+                : state.filledOrders.data
+            return {
+                ...state,
+                orderFilling: false,
+                filledOrders: {
+                    ...state.filledOrders,
+                    data
+                }
+            }
+
         default: return state
     }
 }
