@@ -1,14 +1,30 @@
 import { get, reject, groupBy, maxBy, minBy } from 'lodash'
 import { createSelector } from 'reselect';
 import moment from 'moment'
-import { ETHER_ADDRESS, WHITE, GREEN, RED, ether, token } from '../helpers';
+import { ETHER_ADDRESS, WHITE, GREEN, RED, ether, tokens, formatBalance } from '../helpers';
 
 
 const account = state => get(state, 'web3.account')
 export const accountSelector = createSelector(account, a => a)
 
+const web3 = state => get(state, 'web3.connection')
+export const web3Selector = createSelector(web3, w3 => w3)
+
+const etherBalance = state => get(state, 'web3.etherBalance', 0)
+export const etherBalanceSelector = createSelector(etherBalance, balance => formatBalance(balance))
+
+
+
 const tokenLoaded = state => get(state, 'token.loaded', false)
 export const tokenLoadedSelector = createSelector(tokenLoaded, tl => tl)
+
+const token = state => get(state, 'token.contract')
+export const tokenSelector = createSelector(token, t => t)
+
+const tokenBalance = state => get(state, 'token.tokenBalance', 0)
+export const tokenBalanceSelector = createSelector(tokenBalance, balance => formatBalance(balance))
+
+
 
 const exchangeLoaded = state => get(state, 'exchange.loaded', false)
 export const exchangeLoadedSelector = createSelector(exchangeLoaded, el => el)
@@ -16,17 +32,39 @@ export const exchangeLoadedSelector = createSelector(exchangeLoaded, el => el)
 const exchange = state => get(state, 'exchange.contract')
 export const exchangeSelector = createSelector(exchange, ex => ex)
 
-export const contractsLoadedSelector = createSelector(
-    tokenLoaded,
-    exchangeLoaded,
-    (tl, el) => (tl && el)
-)
+const exchangeEtherBalance = state => get(state, 'exchange.etherBalance', 0)
+export const exchangeEtherBalanceSelector = createSelector(exchangeEtherBalance, bal => formatBalance(bal))
+
+const exchangeTokenBalance = state => get(state, 'exchange.tokenBalance', 0)
+export const exchangeTokenBalanceSelector = createSelector(exchangeTokenBalance, bal => formatBalance(bal))
+
+const etherDepositAmount = state => get(state, 'exchange.etherDepositAmount', null)
+export const etherDepositAmountSelector = createSelector(etherDepositAmount, amount => amount)
+
+const etherWithdrawAmount = state => get(state, 'exchange.etherWithdrawAmount', null)
+export const etherWithdrawAmountSelector = createSelector(etherWithdrawAmount, amount => amount)
+
+const tokenDepositAmount = state => get(state, 'exchange.tokenDepositAmount', null)
+export const tokenDepositAmountSelector = createSelector(tokenDepositAmount, amount => amount)
+
+const tokenWithdrawAmount = state => get(state, 'exchange.tokenWithdrawAmount', null)
+export const tokenWithdrawAmountSelector = createSelector(tokenWithdrawAmount, amount => amount)
+
+
+
+export const contractsLoadedSelector = createSelector(tokenLoaded, exchangeLoaded, (tl, el) => (tl && el))
+
+const balancesLoading = state => get(state, 'exchange.balancesLoading', true)
+export const balancesLoadingSelector = createSelector(balancesLoading, status => status)
+
+
 
 const cancelledOrdersLoaded = state => get(state, 'exchange.cancelledOrders.loaded', false)
 export const cancelledOrdersLoadedSelector = createSelector(cancelledOrdersLoaded, loaded => loaded)
 
 const cancelledOrders = state => get(state, 'exchange.cancelledOrders.data', [])
 export const cancelledOrdersSelector = createSelector(cancelledOrders, o => o)
+
 
 const filledOrdersLoaded = state => get(state, 'exchange.filledOrders.loaded', false)
 export const filledOrdersLoadedSelector = createSelector(filledOrdersLoaded, loaded => loaded)
@@ -253,7 +291,7 @@ const decorateOrder = (order) => {
     return {
         ...order,
         etherAmount: ether(etherAmount),
-        tokenAmount: token(tokenAmount),
+        tokenAmount: tokens(tokenAmount),
         tokenPrice,
         formattedTimestamp: moment.unix(order.timestamp).format('h:mm:ss a D/M')
     }

@@ -41,7 +41,7 @@ const renderOrder = (order, props) => {
             <tr 
                 key={order.id}
                 className='order-book-order'
-                onClick={(e) => fillOrder(dispatch, exchange, order, account)}
+                onClick={ (e) => fillOrder(dispatch, exchange, order, account) }
             >
                 <td>{order.tokenAmount}</td>
                 <td className={`text-${order.orderTypeClass}`}>{order.tokenPrice}</td>

@@ -3,7 +3,13 @@ import Navbar from './Navbar'
 import Content from './content'
 import { connect } from 'react-redux';
 import './app.css';
-import { loadWeb3, loadAccount, loadToken, loadExchange } from '../store/interactions'
+import { 
+  loadWeb3, 
+  loadAccount, 
+  loadToken, 
+  loadExchange, 
+  subscribeToEvents 
+} from '../store/interactions'
 import {contractsLoadedSelector } from '../store/selectors'
 import detectEthereumProvider from '@metamask/detect-provider';
 
@@ -15,17 +21,15 @@ class App extends Component {
   }
 
   async loadBlockchainData(dispatch) {
+    
     const provider = await detectEthereumProvider();
     if (provider) {
-      console.log('ETH chain ID: ', await provider.request({ method: 'eth_chainId' }))
-      console.log('ETH network ID: ', await provider.request({ method: 'net_version'}))
-      console.log('ETH selected account:', await provider.request({ method: 'eth_accounts' }))
-      provider.on('chainChanged', () => window.location.reload())
-      provider.on('accountsChanged', () => window.location.reload())
+        provider.on('chainChanged', () => window.location.reload())
+        provider.on('accountsChanged', () => window.location.reload())
     } else {
       console.log('Please install MetaMask!');
     }
-
+  
     const web3 = loadWeb3(dispatch)
     const networkId = await web3.eth.net.getId()
     const account = await loadAccount(web3, dispatch)
@@ -45,6 +49,7 @@ class App extends Component {
       alert('Exchange smart contract NOT detected on current network.\nPlease select another network with Metamask')
       return
     }
+    await subscribeToEvents(dispatch, web3, exchange, token)
   }
   
   render() {
