@@ -131,6 +131,49 @@ function exchange(state = {}, action) {
                 }
             }
 
+        case 'BUY_ORDER_AMOUNT_CHANGED':
+            return {
+                ...state,
+                buyOrder: { ...state.buyOrder, amount: action.amount }
+            }
+        case 'BUY_ORDER_PRICE_CHANGED':
+            return {
+                ...state,
+                buyOrder: { ...state.buyOrder, price: action.price }
+            }
+        case 'BUY_ORDER_MAKING':
+            return {
+                ...state,
+                buyOrder: { ...state.buyOrder, amount: null, price: null, making: true }
+            }
+        case 'SELL_ORDER_AMOUNT_CHANGED':
+            return {
+                ...state,
+                sellOrder: { ...state.sellOrder, amount: action.amount }
+            }
+        case 'SELL_ORDER_PRICE_CHANGED':
+            return {
+                ...state,
+                sellOrder: { ...state.sellOrder, price: action.price }
+            }
+        case 'SELL_ORDER_MAKING':
+            return {
+                ...state,
+                sellOrder: { ...state.sellOrder, amount: null, price: null, making: true }
+            }
+        case 'ORDER_MADE':
+            // prevent duplicate orders
+            index = state.allOrders.data.findIndex(order => order.id === action.order.id)
+            data = index === -1 ?
+                [...state.allOrders.data, action.order]
+                : state.allOrders.data
+            return {
+                ...state,
+                allOrders: { ...state.allOrders, data },
+                buyOrder: { ...state.buyOrder, making: false },
+                sellOrder: { ...state.sellOrder, making: false }
+            }
+
         default: return state
     }
 }
