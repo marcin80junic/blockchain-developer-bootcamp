@@ -10,7 +10,7 @@ import {
   loadExchange, 
   subscribeToEvents 
 } from '../store/interactions'
-import {contractsLoadedSelector } from '../store/selectors'
+import { contractsLoadedSelector } from '../store/selectors'
 import detectEthereumProvider from '@metamask/detect-provider';
 
 
