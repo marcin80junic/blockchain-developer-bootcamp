@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar'
-import Content from './content'
+import Content from './Content'
 import { connect } from 'react-redux';
 import './app.css';
 import { 
@@ -14,7 +14,7 @@ import {contractsLoadedSelector } from '../store/selectors'
 import detectEthereumProvider from '@metamask/detect-provider';
 
 
-class App extends Component {
+export class App extends Component {
 
   componentDidMount() {
     this.loadBlockchainData(this.props.dispatch)
