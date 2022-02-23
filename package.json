@@ -1,13 +1,12 @@
 {
-  "name": "blockchain-developer-bootcamp",
+  "name": "bootcamp",
   "version": "0.2.0",
   "description": "Decentralized Ethereum Token Exchange",
   "author": "dev@dappuniversity.com",
   "private": true,
   "homepage": ".",
   "engines": {
-    "node": "12.22.10",
-    "npm": "6.14.16"
+    "node": "8.11.1"
   },
   "dependencies": {
     "@metamask/detect-provider": "^1.2.0",
@@ -37,7 +36,7 @@
     "redux-logger": "3.0.6",
     "reselect": "4.0.0",
     "solidity-coverage": "0.7.10",
-    "truffle": "^5.1.45",
+    "truffle": "5.1.45",
     "truffle-flattener": "1.5.0",
     "truffle-hdwallet-provider-privkey": "0.3.0",
     "web3": "1.2.6"
@@ -56,9 +55,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "devDependencies": {
-    "@types/react-redux": "^7.1.22",
-    "web-vitals": "^2.1.2"
-  }
+  ]
 }

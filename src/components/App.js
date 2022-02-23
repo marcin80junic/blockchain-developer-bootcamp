@@ -29,8 +29,8 @@ export class App extends Component {
     } else {
       console.log('Please install MetaMask!');
     }
-  
-    const web3 = loadWeb3(dispatch)
+    
+    const web3 = await loadWeb3(dispatch)
     const networkId = await web3.eth.net.getId()
     const account = await loadAccount(web3, dispatch)
     const token = await loadToken(web3, networkId, dispatch)
