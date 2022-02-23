@@ -54,7 +54,7 @@ const showMyOpenOrders = (props) => {
     )
 }
 
-export class MyTransactions extends Component {
+class MyTransactions extends Component {
     render() {
         return (
             <div className="card bg-dark text-white">

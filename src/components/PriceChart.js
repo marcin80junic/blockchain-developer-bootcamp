@@ -33,7 +33,7 @@ const priceSymbol = (lastPriceChange) => {
 }
 
 
-export class PriceChart extends Component {
+class PriceChart extends Component {
     render() {
         return (
             <div className="card bg-dark text-white">

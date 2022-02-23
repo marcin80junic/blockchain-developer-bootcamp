@@ -51,7 +51,7 @@ const renderOrder = (order, props) => {
     )
 }
 
-export class OrderBook extends Component {
+class OrderBook extends Component {
     render() {
         return (
             <div className="vertical">

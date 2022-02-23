@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { accountSelector } from '../store/selectors'
 
 
-export class Navbar extends Component {
+class Navbar extends Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-dark bg-primary">

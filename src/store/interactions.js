@@ -27,14 +27,9 @@ import { ETHER_ADDRESS } from '../helpers';
 
 
 export const loadWeb3 = async (dispatch) => {
-    if (typeof window.ethereum !== 'undefined') {
-        const web3 = new Web3(window.ethereum)
-        dispatch(web3Loaded(web3))
-        return web3
-    } else {
-        window.alert('Please install MetaMask')
-        window.location.assign("https://metamask.io/")
-    }
+    const web3 = new Web3(Web3.givenProvider || 'http://localhost:7545')
+    dispatch(web3Loaded(web3))
+    return web3
 }
 export const loadAccount = async (web3, dispatch) => {
     const accounts = await web3.eth.getAccounts()

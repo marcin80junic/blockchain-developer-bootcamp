@@ -14,7 +14,7 @@ import { contractsLoadedSelector } from '../store/selectors'
 import detectEthereumProvider from '@metamask/detect-provider';
 
 
-export class App extends Component {
+class App extends Component {
 
   componentDidMount() {
     this.loadBlockchainData(this.props.dispatch)

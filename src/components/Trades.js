@@ -7,7 +7,7 @@ import {
 } from '../store/selectors'    
 
 
-export class Trades extends Component {
+class Trades extends Component {
     render() {
         return (
             <div className="vertical">

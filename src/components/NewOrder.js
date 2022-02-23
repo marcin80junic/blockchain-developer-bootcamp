@@ -127,7 +127,7 @@ const showForm = (props) => {
 }
 
 
-export class NewOrder extends Component {
+class NewOrder extends Component {
     render() {
         return (
             <div className="card bg-dark text-white">
