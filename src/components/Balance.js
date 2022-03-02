@@ -186,7 +186,7 @@ const createTableBody = (tbody) => {
 
 export class Balance extends Component {
 
-    UNSAFE_componentWillMount() {
+    componentDidMount() {
         this.loadBlockchainData()
     }
     async loadBlockchainData() {

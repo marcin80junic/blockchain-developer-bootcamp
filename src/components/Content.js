@@ -12,7 +12,7 @@ import NewOrder from './NewOrder'
 
 class Content extends Component {
 
-  UNSAFE_componentWillMount() {
+  componentDidMount() {
     this.loadBlockchainData(this.props)
   }
   async loadBlockchainData(props) {

@@ -7,9 +7,11 @@ import configureStore from './store/configureStore.js';
 import * as serviceWorker from './serviceWorker'
 
 ReactDOM.render(
-  <Provider store = {configureStore()}>
-    <App />
-  </Provider>,
+  <React.StrictMode>
+    <Provider store = {configureStore()}>
+      <App />
+    </Provider>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
